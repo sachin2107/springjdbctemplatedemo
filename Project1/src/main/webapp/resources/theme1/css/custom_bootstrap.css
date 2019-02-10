@@ -1,0 +1,16 @@
+.navbar-default {
+    background-color: #ffcc00;
+    font-color:white;
+    margin-bottom:0px;
+}
+.navbar-default .navbar-nav>li>a {
+    color: white;
+    font-size: 1.3em;
+}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: white;
+    background-color: blue;
+}
+.input-group {
+ margin-top: 5px;
+}
