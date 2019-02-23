@@ -16,9 +16,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-
 <body>
-	<fmt:bundle basename="com.bo.labels_en">
+	<fmt:bundle basename="labels">
 		<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="col-lg-offset-1 col-lg-11">
@@ -65,6 +64,7 @@
 			</div>
 		</div>
 	</fmt:bundle>
+	
 <script type="text/javascript">
 $(document).ready(function(){
     $('#myCarousel').carousel();
