@@ -1,10 +1,14 @@
 package com.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Employee {
 
 	private int id;
 	private String name;
 	private float salary;
+	private MultipartFile file;
+	
 	public int getId() {
 		return id;
 	}
@@ -31,6 +35,13 @@ public class Employee {
 	}
 	public Employee() {
 		super();
+	}
+	
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 	@Override
 	public String toString() {

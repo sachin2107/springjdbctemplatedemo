@@ -33,11 +33,14 @@ http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 		<constructor-arg ref="dataSource" />
 	</bean> -->
 	
-	<bean id="employee" class="com.model.Employee"></bean>
-
+	<bean id="defaultLobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"/>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10000"></property>
+	</bean>
 	<bean id="employeeDaoImpl" class="com.dao.EmployeeDaoImpl">
 		<!-- <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"></property> -->
 		<property name="dataSource" ref="dataSource"></property>
+		<property name="defaultLobHandler" ref="defaultLobHandler"></property>
 	</bean>
 
 	<bean id="employeeServiceImpl" class="com.service.EmployeeServiceImpl">

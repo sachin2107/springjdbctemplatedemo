@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dao.EmployeeDao;
 import com.model.Employee;
+import com.model.FileData;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -47,6 +48,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public int insert(Employee e) {
 		return this.employeeDao.insert(e);
+	}
+
+	@Override
+	public void insertFileData(FileData fileData) {
+		this.employeeDao.insertFileData(fileData);
 	}
 	
 	

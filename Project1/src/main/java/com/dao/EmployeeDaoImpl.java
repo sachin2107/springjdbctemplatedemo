@@ -1,19 +1,22 @@
 package com.dao;
 
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.support.AbstractLobCreatingPreparedStatementCallback;
+import org.springframework.jdbc.support.lob.DefaultLobHandler;
+import org.springframework.jdbc.support.lob.LobCreator;
 
 import com.model.Employee;
+import com.model.FileData;
 
 public class EmployeeDaoImpl extends NamedParameterJdbcDaoSupport implements EmployeeDao {
 //added extends NamedParameterJdbcdDaoSupport-- due to this no need to inject namedParameterJdbcTemplate
@@ -28,6 +31,18 @@ public class EmployeeDaoImpl extends NamedParameterJdbcDaoSupport implements Emp
 	public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 	}*/
+
+	private DefaultLobHandler defaultLobHandler;
+	
+	public DefaultLobHandler getDefaultLobHandler() {
+		return defaultLobHandler;
+	}
+
+
+	public void setDefaultLobHandler(DefaultLobHandler defaultLobHandler) {
+		this.defaultLobHandler = defaultLobHandler;
+	}
+
 
 	@Override
 	public void save(Employee e) {
@@ -77,6 +92,22 @@ public class EmployeeDaoImpl extends NamedParameterJdbcDaoSupport implements Emp
 		String SQL = "DELETE FROM EMPLOYEE WHERE id = :id";
 		SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(e);
 		return getNamedParameterJdbcTemplate().update(SQL, namedParameters);
+	}
+
+
+	@Override
+	public void insertFileData(FileData fileData) {
+		getJdbcTemplate().execute("INSERT INTO FILE_DATA (FILE_ID, FILE_CONTENT, TEMP_FLAG) VALUES (?, ?, ?)",
+					new AbstractLobCreatingPreparedStatementCallback(this.defaultLobHandler) {
+
+						@Override
+						protected void setValues(PreparedStatement ps, LobCreator lobCreator) throws SQLException, DataAccessException {
+							ps.setInt(1, fileData.getField().intValue());
+							lobCreator.setBlobAsBytes(ps, 2, fileData.getFileContent());
+							ps.setString(3, fileData.getTempFlag());
+						}
+				
+		});
 	}
 
 }

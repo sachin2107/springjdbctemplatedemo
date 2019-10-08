@@ -1,18 +1,24 @@
 package com.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model.Employee;
+import com.model.FileData;
 import com.service.EmployeeService;
 
 @Controller
@@ -52,7 +58,7 @@ public class EmployeeController{
 	
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST)
-	public ModelAndView save(@ModelAttribute("Employee")Employee e)
+	public ModelAndView save(@ModelAttribute("Employee")Employee e) throws IOException
 	{
 //		List emp = this.employeeService.getAllEmployees();
 //		this.employeeService.save(e);
@@ -64,6 +70,15 @@ public class EmployeeController{
 //		{
 			//this.employeeService.save(e);
 			this.employeeService.insert(e);
+//			File file = new File("C:\\Users\\HP1\\Desktop\\dummytext.txt");
+//			DiskFileItem fileItem = new DiskFileItem(file.getName(), "text/plain", false, file.getName(), (int)file.length(), file);
+//			fileItem.getOutputStream();
+			MultipartFile mpFile = e.getFile();
+ 			FileData fileData = new FileData();
+			fileData.setField(1);
+  			fileData.setFileContent(mpFile.getBytes());
+			fileData.setTempFlag("A");
+			this.employeeService.insertFileData(fileData);
 		System.out.println("record saved....");
 /*		}else if(e.getName().equalsIgnoreCase("get"))
 		{

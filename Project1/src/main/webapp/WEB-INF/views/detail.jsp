@@ -29,7 +29,7 @@
     </div>	
     	<br/>
     	<div class="row">
-        <form action="/Project1/save" method="post" class="form-horizontal" role="form">
+        <form action="/Project1/save" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
         	 <div class="form-group row">
             	<label class="col-lg-2 col-lg-offset-2 control-label text-right" for="id">ID: </label>
                 <div class="col-lg-4">
@@ -54,6 +54,12 @@
             	<label class="col-lg-2 col-lg-offset-2 control-label text-right" for="salary">Salary: </label>
                 <div class="col-lg-4">
                 	<input type="text" class="form-control" id="salary" name="salary"/>
+        		</div>
+            </div>
+            <div class="form-group row">
+            	<label class="col-lg-2 col-lg-offset-2 control-label text-right" for="file1">File: </label>
+                <div class="col-lg-4">
+                	<input type="file" class="form-control" id="file1" name="file"/>
         		</div>
             </div>
             <div class="form-group row">
