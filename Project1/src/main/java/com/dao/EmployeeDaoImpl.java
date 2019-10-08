@@ -9,14 +9,17 @@ import java.util.Map;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import com.model.Employee;
 
-public class EmployeeDaoImpl implements EmployeeDao {
-
-	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+public class EmployeeDaoImpl extends NamedParameterJdbcDaoSupport implements EmployeeDao {
+//added extends NamedParameterJdbcdDaoSupport-- due to this no need to inject namedParameterJdbcTemplate
+//in *DaoImpl.java class.  We can directly use getNamedParameterJdbcTemplate() method
+//commented namedParameterJdbcTemplate and bean also commented from spring-servlet.xml
+	/*NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
 	public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate() {
 		return namedParameterJdbcTemplate;
@@ -24,7 +27,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-	}
+	}*/
 
 	@Override
 	public void save(Employee e) {
@@ -33,7 +36,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	      namedParameters.put("id", e.getId());
 	      namedParameters.put("name", e.getName());   
 	      namedParameters.put("salary", e.getSalary());
-	      namedParameterJdbcTemplate.update(SQL, namedParameters);
+//	      this.namedParameterJdbcTemplate.update(SQL, namedParameters);
+	      getNamedParameterJdbcTemplate().update(SQL, namedParameters);
 	}
 
 	
@@ -49,7 +53,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public Employee getEmployeeById(int id) {
 		String SQL = "SELECT * FROM Employee WHERE id = :id";
 		SqlParameterSource namedParameters = new MapSqlParameterSource("id",id);
-		Employee employee = (Employee) namedParameterJdbcTemplate.queryForObject(SQL, namedParameters, new EmployeeMapper());
+		Employee employee = (Employee) getNamedParameterJdbcTemplate().queryForObject(SQL, namedParameters, new EmployeeMapper());
 		return employee;
 	}
 
@@ -57,7 +61,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public List<Employee> getAllEmployees() {
 		String SQL = "SELECT * FROM Employee";
 		MapSqlParameterSource sqlParameters = new MapSqlParameterSource();
-		List employee = namedParameterJdbcTemplate.query(SQL,sqlParameters,new EmployeeMapper());
+		List employee = getNamedParameterJdbcTemplate().query(SQL,sqlParameters,new EmployeeMapper());
 		return employee;
 	}
 
@@ -65,14 +69,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public int deleteEmployeeById(int id) {
 		String SQL = "DELETE FROM EMPLOYEE WHERE id = :id";
 		SqlParameterSource namedParameters = new MapSqlParameterSource("id",id);
-		return namedParameterJdbcTemplate.update(SQL, namedParameters);
+		return getNamedParameterJdbcTemplate().update(SQL, namedParameters);
 	}
 
 	@Override
 	public int deleteEmpByIdUsingBeanProp(Employee e) {
 		String SQL = "DELETE FROM EMPLOYEE WHERE id = :id";
 		SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(e);
-		return namedParameterJdbcTemplate.update(SQL, namedParameters);
+		return getNamedParameterJdbcTemplate().update(SQL, namedParameters);
 	}
 
 }

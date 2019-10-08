@@ -29,14 +29,15 @@ http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 		<property name="password" value="root"></property>
 	</bean>
 
-	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+	<!-- <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-arg ref="dataSource" />
-	</bean>
+	</bean> -->
 	
 	<bean id="employee" class="com.model.Employee"></bean>
 
 	<bean id="employeeDaoImpl" class="com.dao.EmployeeDaoImpl">
-		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"></property>
+		<!-- <property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate"></property> -->
+		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 
 	<bean id="employeeServiceImpl" class="com.service.EmployeeServiceImpl">
