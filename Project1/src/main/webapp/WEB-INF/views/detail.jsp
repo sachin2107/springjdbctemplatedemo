@@ -59,7 +59,7 @@
             <div class="form-group row">
             	<label class="col-lg-2 col-lg-offset-2 control-label text-right" for="file1">File: </label>
                 <div class="col-lg-4">
-                	<input type="file" class="form-control" id="file1" name="file"/>
+                	<input type="file" class="custom-file-input" id="file1" name="file"/>
         		</div>
             </div>
             <div class="form-group row">

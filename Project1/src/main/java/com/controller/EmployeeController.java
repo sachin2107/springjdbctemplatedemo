@@ -70,9 +70,6 @@ public class EmployeeController{
 //		{
 			//this.employeeService.save(e);
 			this.employeeService.insert(e);
-//			File file = new File("C:\\Users\\HP1\\Desktop\\dummytext.txt");
-//			DiskFileItem fileItem = new DiskFileItem(file.getName(), "text/plain", false, file.getName(), (int)file.length(), file);
-//			fileItem.getOutputStream();
 			MultipartFile mpFile = e.getFile();
  			FileData fileData = new FileData();
 			fileData.setField(1);
